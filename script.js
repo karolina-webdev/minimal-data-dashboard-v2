@@ -17,14 +17,25 @@ function renderCards(data) {
         const card = document.createElement("div");
         card.className = "card";
 
-        card.innerHTML = `
+        const icon = document.createElement("div");
+        icon.className = "card-icon";
+        icon.textContent = person.name[0]; // первая буква имени
+
+        const info = document.createElement("div");
+        info.className = "card-info";
+        info.innerHTML = `
             <strong>${person.name}</strong>
             <span>Age: ${person.age}</span>
             <span>City: ${person.city}</span>
         `;
 
+        card.appendChild(icon);
+        card.appendChild(info);
         grid.appendChild(card);
     });
+
+    container.appendChild(grid);
+}
 
     container.appendChild(grid);
 }

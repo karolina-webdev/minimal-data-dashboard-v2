@@ -37,9 +37,6 @@ function renderCards(data) {
     container.appendChild(grid);
 }
 
-    container.appendChild(grid);
-}
-
 function applyFilters() {
     let filtered = [...people];
 

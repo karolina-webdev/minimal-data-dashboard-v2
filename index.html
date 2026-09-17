@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimal Data Dashboard V2</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app">
+    <header class="app-header">
+      <h1>Minimal Data Dashboard</h1>
+      <p class="app-subtitle">Interactive module for filtering and sorting data</p>
+    </header>
+
+    <section class="controls">
+      <div class="control-group">
+        <label>City</label>
+        <select id="cityFilter">
+          <option value="All">All</option>
+          <option value="Tallinn">Tallinn</option>
+          <option value="Tartu">Tartu</option>
+          <option value="Narva">Narva</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label>Age</label>
+        <select id="ageFilter">
+          <option value="All">All</option>
+          <option value="20-30">20-30</option>
+          <option value="30-40">30-40</option>
+        </select>
+      </div>
+
+      <button id="sortName">Sort by name</button>
+      <button id="sortAge">Sort by age</button>
+    </section>
+
+    <main class="content" id="cardsContainer">
+      <!-- Cards will be rendered here -->
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -6,6 +6,7 @@ const people = [
     { name: "Maria", age: 22, city: "Tartu" }
 ];
 
+/* ------------------ RENDER CARDS ------------------ */
 function renderCards(data) {
     const container = document.getElementById("cardsContainer");
     container.innerHTML = "";
@@ -39,6 +40,66 @@ function renderCards(data) {
     applyDarkModeToCards();
 }
 
+/* ------------------ RENDER CHART ------------------ */
+let ageChart;
+
+function renderChart(data) {
+    const ctx = document.getElementById("ageChart").getContext("2d");
+
+    const ages = data.map(p => p.age);
+    const names = data.map(p => p.name);
+
+    if (ageChart) ageChart.destroy();
+
+    ageChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: names,
+            datasets: [{
+                label: "Age",
+                data: ages,
+                backgroundColor: document.body.classList.contains("dark")
+                    ? "rgba(255, 255, 255, 0.4)"
+                    : "rgba(75, 192, 192, 0.4)",
+                borderColor: document.body.classList.contains("dark")
+                    ? "rgba(255, 255, 255, 0.8)"
+                    : "rgba(75, 192, 192, 1)",
+                borderWidth: 2,
+                borderRadius: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: document.body.classList.contains("dark")
+                            ? "#e5e7eb"
+                            : "#1f2937"
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: document.body.classList.contains("dark")
+                            ? "#e5e7eb"
+                            : "#1f2937"
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: document.body.classList.contains("dark")
+                            ? "#e5e7eb"
+                            : "#1f2937"
+                    }
+                }
+            }
+        }
+    });
+}
+
+/* ------------------ FILTERS ------------------ */
 function applyFilters() {
     let filtered = [...people];
 
@@ -55,6 +116,7 @@ function applyFilters() {
     }
 
     renderCards(filtered);
+    renderChart(filtered);
 }
 
 document.getElementById("cityFilter").addEventListener("change", applyFilters);
@@ -63,16 +125,16 @@ document.getElementById("ageFilter").addEventListener("change", applyFilters);
 document.getElementById("sortName").addEventListener("click", () => {
     const sorted = [...people].sort((a, b) => a.name.localeCompare(b.name));
     renderCards(sorted);
+    renderChart(sorted);
 });
 
 document.getElementById("sortAge").addEventListener("click", () => {
     const sorted = [...people].sort((a, b) => a.age - b.age);
     renderCards(sorted);
+    renderChart(sorted);
 });
 
-renderCards(people);
-
-/* DARK MODE LOGIC */
+/* ------------------ DARK MODE ------------------ */
 const themeBtn = document.getElementById("themeToggle");
 
 themeBtn.addEventListener("click", () => {
@@ -84,6 +146,7 @@ themeBtn.addEventListener("click", () => {
     localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
 
     applyDarkModeToCards();
+    renderChart(people);
 });
 
 function applyDarkModeToCards() {
@@ -100,7 +163,10 @@ function applyDarkModeToCards() {
     spans.forEach(s => s.classList.toggle("dark", dark));
 }
 
-/* Load saved theme */
+/* ------------------ INITIAL LOAD ------------------ */
+renderCards(people);
+renderChart(people);
+
 if (localStorage.getItem("theme") === "dark") {
     themeBtn.click();
 }

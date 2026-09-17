@@ -19,7 +19,7 @@ function renderCards(data) {
 
         const icon = document.createElement("div");
         icon.className = "card-icon";
-        icon.textContent = person.name[0]; // первая буква имени
+        icon.textContent = person.name[0];
 
         const info = document.createElement("div");
         info.className = "card-info";
@@ -35,6 +35,8 @@ function renderCards(data) {
     });
 
     container.appendChild(grid);
+
+    applyDarkModeToCards();
 }
 
 function applyFilters() {
@@ -69,3 +71,37 @@ document.getElementById("sortAge").addEventListener("click", () => {
 });
 
 renderCards(people);
+
+/* DARK MODE LOGIC */
+const themeBtn = document.getElementById("themeToggle");
+
+themeBtn.addEventListener("click", () => {
+    document.body.classList.toggle("dark");
+    document.querySelector(".app").classList.toggle("dark");
+    document.querySelector(".controls").classList.toggle("dark");
+    themeBtn.classList.toggle("dark");
+
+    localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
+
+    applyDarkModeToCards();
+});
+
+function applyDarkModeToCards() {
+    const cards = document.querySelectorAll(".card");
+    const icons = document.querySelectorAll(".card-icon");
+    const names = document.querySelectorAll(".card-info strong");
+    const spans = document.querySelectorAll(".card-info span");
+
+    const dark = document.body.classList.contains("dark");
+
+    cards.forEach(c => c.classList.toggle("dark", dark));
+    icons.forEach(i => i.classList.toggle("dark", dark));
+    names.forEach(n => n.classList.toggle("dark", dark));
+    spans.forEach(s => s.classList.toggle("dark", dark));
+}
+
+/* Load saved theme */
+if (localStorage.getItem("theme") === "dark") {
+    themeBtn.click();
+}
+
